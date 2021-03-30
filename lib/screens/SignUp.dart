@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sms_autofill/sms_autofill.dart';
+import 'package:ChatApp/screens/profile.dart';
+
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,65 +13,129 @@ class _SignUpState extends State<SignUp> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _phoneNoController = TextEditingController();
-  String _verificationId;
+  final TextEditingController _codeController = TextEditingController();
+  String _verificationId ;
+  final SmsAutoFill _autoFill = SmsAutoFill();
+
+  @override
+  void initState() {
+    _phoneNoController.text = "+91 ";
+    super.initState();
+  }
 
   Stream<String> get onAuthStateChanged => _auth.authStateChanges().map(
         (User user) => user?.uid,
       );
 
-  void showSnackbar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+  void showSnackbar(String message  , BuildContext context ) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        width:MediaQuery.of(context).size.width - 50 ,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        content: Text(message),
+        duration: Duration(seconds:3),
+      ),
+    );
   }
 
-  void signInwithPhonenumber() async {
+  void signInwithPhonenumber(BuildContext context) async {
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
+      Navigator.of(context).pop();
       await _auth.signInWithCredential(phoneAuthCredential);
       showSnackbar(
-          "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}");
+          "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}" ,  context);
+      // Navigation to home screen (profile setup section) 
+      Navigator.push(context, MaterialPageRoute(
+              builder: (context) => Profile()) );
+      // verification is done only through auto code retreival
     };
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {
       showSnackbar(
+          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}',  context);
+      print(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
     PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
-      showSnackbar('Please check your phone for the verification code.');
+      showSnackbar('Please check your phone for the verification code.',  context);
       _verificationId = verificationId;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Enter OTP"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min ,
+              children: <Widget>[
+                TextField(
+                  controller: _codeController,
+                ),
+              ],
+            ),
+            actions: [
+              FlatButton(
+                  onPressed: () async {
+                    PhoneAuthCredential phoneAuthCredential =
+                        PhoneAuthProvider.credential(
+                            verificationId: verificationId,
+                            smsCode: _codeController.text.trim());
+                    await _auth.signInWithCredential(phoneAuthCredential);
+                    Navigator.of(context).pop();
+                    showSnackbar(
+                        "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}" ,  context);
+                    // Copy the navigation code from varification completed
+                     Navigator.push(context, MaterialPageRoute(
+              builder: (context) => Profile()) );
+                  },
+                  
+                  child: Text("Confirm"),
+                  textColor: Colors.black)
+            ],
+          );
+        },
+      );
     };
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
-      showSnackbar("verification code: " + verificationId);
+      showSnackbar("verification code: " + verificationId ,  context);
       _verificationId = verificationId;
     };
     try {
       await _auth.verifyPhoneNumber(
           phoneNumber: _phoneNoController.text,
-          timeout: const Duration(seconds: 10),
+          timeout: const Duration(seconds: 30),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
     } catch (e) {
-      showSnackbar(" Failed to Verify Phone Number: $e ");
+      showSnackbar(" Failed to Verify Phone Number: $e " ,  context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Center(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-          width: MediaQuery.of(context).size.width -50,
+          width: MediaQuery.of(context).size.width - 50,
           child: TextFormField(
+            initialValue: _phoneNoController == null ? "+91 " : null,
             keyboardType: TextInputType.numberWithOptions(),
             controller: _phoneNoController,
             decoration: InputDecoration(
               icon: Icon(Icons.phone_android),
-              hintText: "Phone Number",
+              hintText: "+91 xxxx xxxxxx ",
               filled: true,
               fillColor: Colors.white,
               enabledBorder: OutlineInputBorder(
@@ -91,9 +158,11 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
           ),
-          onPressed: signInwithPhonenumber,
+          onPressed: () {
+            signInwithPhonenumber(context);
+          },
         ),
       ],
-    ));
+    )));
   }
 }
