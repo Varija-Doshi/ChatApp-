@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ChatApp/screens/profile.dart';
+import 'package:ChatApp/screens/profile1.dart';
 
 class Home extends StatefulWidget {
   @override

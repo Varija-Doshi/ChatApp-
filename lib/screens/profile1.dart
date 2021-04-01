@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
+class Profile extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
 
-  Widget onPressed() {
-    
-    return AlertDialog(
-      title: Text("Name"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          TextField(
-            controller: _nameController,
-          )
-        ],
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Confirm")),
-      ],
+   Future<void> onPressed() async{
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("Name"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                controller: _nameController,
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Confirm")),
+          ],
+        );
+      },
     );
   }
 

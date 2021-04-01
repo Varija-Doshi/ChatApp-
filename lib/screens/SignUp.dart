@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:ChatApp/screens/profile.dart';
+import 'package:ChatApp/screens/profile1.dart';
 
 
 class SignUp extends StatefulWidget {
