@@ -134,7 +134,7 @@ class _SignUpState extends State<SignUp> {
             keyboardType: TextInputType.numberWithOptions(),
             controller: _phoneNoController,
             decoration: InputDecoration(
-              icon: Icon(Icons.phone_android),
+              icon: Icon(Icons.phone),
               hintText: "+91 xxxx xxxxxx ",
               filled: true,
               fillColor: Colors.white,
