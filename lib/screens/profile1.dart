@@ -9,9 +9,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _nameController = TextEditingController();
 
   Widget onPressed() {
-    
     return AlertDialog(
-      title: Text("Name"),
+      title: Text("Full Name"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
