@@ -9,18 +9,18 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
 
-  Future<void> onPressed() async {
+  Future<void> onPressed(String _input, var _controller) async {
     return showDialog(
       barrierDismissible: true,
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("Name"),
+          title: Text(_input),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                controller: _nameController,
+                controller: _controller,
               )
             ],
           ),
@@ -58,9 +58,18 @@ class _ProfileState extends State<Profile> {
                 height: 60,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 50,
+                width: MediaQuery.of(context).size.width - 74,
+                child: Text(
+                  "Name",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 70,
+                height: 50,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
                       _nameController.text == ""
@@ -75,32 +84,45 @@ class _ProfileState extends State<Profile> {
                       iconSize: 27,
                       splashRadius: 27,
                       onPressed: () {
-                        onPressed();
+                        onPressed("Name", _nameController);
                       },
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 50,
+                width: MediaQuery.of(context).size.width - 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text(
-                      _statusController.text == ""
-                          ? "Status"
-                          : _nameController.text,
-                      style: TextStyle(
-                        fontSize: 24,
+                    Expanded(
+                      child: ListTile(
+                        dense: false,
+                        isThreeLine: true,
+                        title: Text(
+                          "Status",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        subtitle: Text(
+                          _statusController.text == ""
+                              ? "Hey There"
+                              : _statusController.text,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          color: Colors.black,
+                          iconSize: 27,
+                          splashRadius: 27,
+                          onPressed: () {
+                            onPressed("Status", _statusController);
+                          },
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      iconSize: 27,
-                      splashRadius: 27,
-                      onPressed: () {
-                        onPressed();
-                      },
                     ),
                   ],
                 ),
