@@ -7,8 +7,9 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _statusController = TextEditingController();
 
-   Future<void> onPressed() async{
+  Future<void> onPressed() async {
     return showDialog(
       barrierDismissible: true,
       context: context,
@@ -48,18 +49,18 @@ class _ProfileState extends State<Profile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 100,
+                height: 80,
               ),
               CircleAvatar(
-                radius: 50,
+                radius: 80,
               ),
               SizedBox(
-                height: 40,
+                height: 60,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width - 50,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
                       _nameController.text == ""
@@ -69,14 +70,38 @@ class _ProfileState extends State<Profile> {
                         fontSize: 24,
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          onPressed();
-                        },
-                        child: Text("Edit",
-                            style: TextStyle(
-                              fontSize: 24,
-                            ))),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      iconSize: 27,
+                      splashRadius: 27,
+                      onPressed: () {
+                        onPressed();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      _statusController.text == ""
+                          ? "Status"
+                          : _nameController.text,
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      iconSize: 27,
+                      splashRadius: 27,
+                      onPressed: () {
+                        onPressed();
+                      },
+                    ),
                   ],
                 ),
               ),
