@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
 
 class Profile extends StatefulWidget {
+  final String phone_no;
+  Profile(this.phone_no);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -9,6 +11,13 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
+  String phoneNo;
+
+  @override
+  void initState() {
+    phoneNo = widget.phone_no;
+    super.initState();
+  }
 
   Future<void> onPressed() async {
     return showDialog(
@@ -58,17 +67,27 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 60,
               ),
+              Text(
+                "Phone Number : "+phoneNo,
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 50,
+                height: 10,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width  ,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(width: MediaQuery.of(context).size.width /13  ),
                     Text(
                       _nameController.text == ""
                           ? "Full Name"
                           : _nameController.text,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
                     IconButton(
@@ -83,16 +102,17 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 50,
+                width: MediaQuery.of(context).size.width ,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(width: MediaQuery.of(context).size.width /13  ),
                     Text(
                       _statusController.text == ""
                           ? "Status"
                           : _nameController.text,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
                     IconButton(
@@ -110,14 +130,15 @@ class _ProfileState extends State<Profile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  
                   RaisedButton(
                       color: Colors.amber,
-                      child:
-                          Text("NEXT", style: TextStyle(color: Colors.black  ,fontSize: 24)),
+                      child: Text("NEXT",
+                          style: TextStyle(color: Colors.black, fontSize: 24)),
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Home(phoneNo)));
                       }),
                 ],
               )

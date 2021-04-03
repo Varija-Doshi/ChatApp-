@@ -50,8 +50,11 @@ class _SignUpState extends State<SignUp> {
           "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}",
           context);
       // Navigation to home screen (profile setup section)
+      
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(_phoneNoController.text)));
       // verification is done only through auto code retreival
     };
     PhoneVerificationFailed verificationFailed =
@@ -95,8 +98,11 @@ class _SignUpState extends State<SignUp> {
                         "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}",
                         context);
                     // Copy the navigation code from varification completed
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Profile(_phoneNoController.text)));
                   },
                   child: Text("Confirm"),
                   textColor: Colors.black)
