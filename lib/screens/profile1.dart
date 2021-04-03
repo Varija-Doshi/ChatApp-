@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:io' as drt;
 
 import 'package:flutter/material.dart';
@@ -90,11 +89,12 @@ class _ProfileState extends State<Profile> {
                   overflow: Overflow.visible,
                   children: [
                     CircleAvatar(
-                        backgroundColor: Colors.grey[400],
-                        backgroundImage: _image == null
-                            ? NetworkImage(
-                                'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80')
-                            : Image.file(_image)),
+                      backgroundColor: Colors.grey[400],
+                      backgroundImage: _image == null
+                          ? NetworkImage(
+                              'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80')
+                          : Image.file(_image),
+                    ),
                     Positioned(
                       right: -12,
                       bottom: 0,
