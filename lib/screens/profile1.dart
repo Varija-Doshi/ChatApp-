@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -11,7 +12,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
-  String phoneNo;
+  static String phoneNo, name = '', status = '';
+  bool flag = true;
 
   @override
   void initState() {
@@ -36,10 +38,17 @@ class _ProfileState extends State<Profile> {
           ),
           actions: [
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Confirm")),
+              onPressed: () {
+                setState(() {
+                  if (flag) {
+                    name = _controller.text;
+                  } else
+                    status = _controller.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text("Confirm"),
+            ),
           ],
         );
       },
@@ -53,7 +62,7 @@ class _ProfileState extends State<Profile> {
         title: Text("Profile"),
         backgroundColor: Colors.amber,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,16 +78,15 @@ class _ProfileState extends State<Profile> {
               ),
               Positioned(
                 child: SizedBox(
+                  height: 46,
+                  width: 46,
                   child: FlatButton(
                     color: Colors.green[600],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80),
+                      borderRadius: BorderRadius.circular(50),
                       side: BorderSide(color: Colors.red),
                     ),
-                    child: Text("Image"),
-                    /*child: Image(
-                      image: AssetImage(null),
-                    ),*/
+                    child: SvgPicture.asset("Assets/Icons/Camera Icon.svg"),
                     onPressed: null,
                   ),
                 ),
@@ -89,24 +97,22 @@ class _ProfileState extends State<Profile> {
               Text(
                 "Phone Number : " + phoneNo,
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 24,
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width - 45,
+                height: 50,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SizedBox(width: MediaQuery.of(context).size.width / 13),
                     Text(
-                      _nameController.text == ""
-                          ? "Full Name"
-                          : _nameController.text,
+                      name == "" ? "Full Name" : name,
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 24,
                       ),
                     ),
                     IconButton(
@@ -114,6 +120,7 @@ class _ProfileState extends State<Profile> {
                       iconSize: 27,
                       splashRadius: 27,
                       onPressed: () {
+                        flag = true;
                         onPressed("Name", _nameController);
                       },
                     ),
@@ -121,17 +128,36 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width - 10,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SizedBox(width: MediaQuery.of(context).size.width / 13),
-                    Text(
-                      _statusController.text == ""
-                          ? "Status"
-                          : _nameController.text,
-                      style: TextStyle(
-                        fontSize: 22,
+                    Expanded(
+                      child: ListTile(
+                        dense: false,
+                        isThreeLine: true,
+                        title: Text(
+                          "Status",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        subtitle: Text(
+                          status == "" ? "Hey There" : status,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          color: Colors.black,
+                          iconSize: 27,
+                          splashRadius: 27,
+                          onPressed: () {
+                            flag = false;
+                            onPressed("Status", _statusController);
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -160,3 +186,101 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
+/*SizedBox(
+                height: 70,
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.grey[400],
+                backgroundImage: NetworkImage(
+                    'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80'),
+                radius: 80,
+              ),
+              Positioned(
+                child: SizedBox(
+                  child: FlatButton(
+                    color: Colors.green[600],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80),
+                      side: BorderSide(color: Colors.red),
+                    ),
+                    child: Text("Image"),
+                    /*child: Image(
+                      image: AssetImage(null),
+                    ),*/
+                    onPressed: null,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 74,
+                child: Text(
+                  "Name",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 70,
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _nameController.text == ""
+                          ? "Full Name"
+                          : _nameController.text,
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      iconSize: 27,
+                      splashRadius: 27,
+                      onPressed: () {
+                        onPressed("Name", _nameController);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: ListTile(
+                        dense: false,
+                        isThreeLine: true,
+                        title: Text(
+                          "Status",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        subtitle: Text(
+                          _statusController.text == ""
+                              ? "Hey There"
+                              : _statusController.text,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          color: Colors.black,
+                          iconSize: 27,
+                          splashRadius: 27,
+                          onPressed: () {
+                            onPressed("Status", _statusController);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),*/
