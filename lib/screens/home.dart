@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/profile1.dart';
 
 class Home extends StatefulWidget {
+  final String phone_no;
+  Home(this.phone_no);
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
+String phoneNo;
+
+  
   TabController _tabController;
   final List chats = [
     "chat 1",
@@ -35,9 +41,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabController.addListener(_handleTabIndex);
+    phoneNo = widget.phone_no;
   }
 
   void _handleTabIndex() {
@@ -167,7 +175,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   title: Text('Profile'),
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                        MaterialPageRoute(builder: (context) => Profile(phoneNo)));
                   },
                 ),
                 ListTile(

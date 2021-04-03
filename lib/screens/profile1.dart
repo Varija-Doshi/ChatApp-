@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ChatApp/screens/home.dart';
 
 class Profile extends StatefulWidget {
+  final String phone_no;
+  Profile(this.phone_no);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -8,6 +11,13 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
+  String phoneNo;
+
+  @override
+  void initState() {
+    phoneNo = widget.phone_no;
+    super.initState();
+  }
 
   Future<void> onPressed(String _input, var _controller) async {
     return showDialog(
@@ -76,26 +86,27 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 60,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 74,
-                child: Text(
-                  "Name",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              Text(
+                "Phone Number : " + phoneNo,
+                style: TextStyle(
+                  fontSize: 22,
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 70,
-                height: 50,
+                height: 10,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(width: MediaQuery.of(context).size.width / 13),
                     Text(
                       _nameController.text == ""
                           ? "Full Name"
                           : _nameController.text,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
                     IconButton(
@@ -110,42 +121,38 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 40,
+                width: MediaQuery.of(context).size.width,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(
-                      child: ListTile(
-                        dense: false,
-                        isThreeLine: true,
-                        title: Text(
-                          "Status",
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.grey[700]),
-                        ),
-                        subtitle: Text(
-                          _statusController.text == ""
-                              ? "Hey There"
-                              : _statusController.text,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.black,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.edit),
-                          color: Colors.black,
-                          iconSize: 27,
-                          splashRadius: 27,
-                          onPressed: () {
-                            onPressed("Status", _statusController);
-                          },
-                        ),
+                    SizedBox(width: MediaQuery.of(context).size.width / 13),
+                    Text(
+                      _statusController.text == ""
+                          ? "Status"
+                          : _nameController.text,
+                      style: TextStyle(
+                        fontSize: 22,
                       ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                      color: Colors.amber,
+                      child: Text("NEXT",
+                          style: TextStyle(color: Colors.black, fontSize: 24)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Home(phoneNo)));
+                      }),
+                ],
+              )
             ],
           ),
         ),
