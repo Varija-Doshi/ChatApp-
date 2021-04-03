@@ -1,6 +1,10 @@
+import 'dart:html';
+import 'dart:io' as drt;
+
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -14,11 +18,19 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _statusController = TextEditingController();
   static String phoneNo, name = '', status = '';
   bool flag = true;
+  drt.File _image;
 
   @override
   void initState() {
     phoneNo = widget.phone_no;
     super.initState();
+  }
+
+  Future _getImage() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
   }
 
   Future<void> onPressed(String _input, var _controller) async {
@@ -70,25 +82,38 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 70,
               ),
-              CircleAvatar(
-                backgroundColor: Colors.grey[400],
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80'),
-                radius: 80,
-              ),
-              Positioned(
-                child: SizedBox(
-                  height: 46,
-                  width: 46,
-                  child: FlatButton(
-                    color: Colors.green[600],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side: BorderSide(color: Colors.red),
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Stack(
+                  fit: StackFit.expand,
+                  overflow: Overflow.visible,
+                  children: [
+                    CircleAvatar(
+                        backgroundColor: Colors.grey[400],
+                        backgroundImage: _image == null
+                            ? NetworkImage(
+                                'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80')
+                            : Image.file(_image)),
+                    Positioned(
+                      right: -12,
+                      bottom: 0,
+                      child: SizedBox(
+                        height: 46,
+                        width: 46,
+                        child: FlatButton(
+                          onPressed: _getImage,
+                          color: Colors.grey[350],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            side: BorderSide(color: Colors.white),
+                          ),
+                          child:
+                              SvgPicture.asset("Assets/Icons/Camera Icon.svg"),
+                        ),
+                      ),
                     ),
-                    child: SvgPicture.asset("Assets/Icons/Camera Icon.svg"),
-                    onPressed: null,
-                  ),
+                  ],
                 ),
               ),
               SizedBox(
