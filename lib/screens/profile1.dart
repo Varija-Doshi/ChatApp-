@@ -129,31 +129,43 @@ class _ProfileState extends State<Profile> {
                 height: 10,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 45,
-                height: 50,
+                width: MediaQuery.of(context).size.width - 14,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text(
-                      name == "" ? "Full Name" : name,
-                      style: TextStyle(
-                        fontSize: 24,
+                    Expanded(
+                      child: ListTile(
+                        dense: false,
+                        isThreeLine: false,
+                        title: Text(
+                          "Name",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        subtitle: Text(
+                          name == "" ? "Full Name" : status,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          color: Colors.black,
+                          iconSize: 27,
+                          splashRadius: 27,
+                          onPressed: () {
+                            flag = true;
+                            onPressed("Name", _nameController);
+                          },
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      iconSize: 27,
-                      splashRadius: 27,
-                      onPressed: () {
-                        flag = true;
-                        onPressed("Name", _nameController);
-                      },
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 10,
+                width: MediaQuery.of(context).size.width - 14,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[

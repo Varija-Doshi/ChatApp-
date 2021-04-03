@@ -50,7 +50,7 @@ class _SignUpState extends State<SignUp> {
           "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}",
           context);
       // Navigation to home screen (profile setup section)
-      
+
       Navigator.push(
           context,
           MaterialPageRoute(
