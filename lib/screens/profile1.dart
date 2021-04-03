@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ChatApp/screens/home.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -69,7 +70,8 @@ class _ProfileState extends State<Profile> {
                         fontSize: 24,
                       ),
                     ),
-                    ElevatedButton(
+                    RaisedButton(
+                      color: Colors.amber,
                         onPressed: () {
                           onPressed();
                         },
@@ -80,6 +82,21 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  
+                  RaisedButton(
+                      color: Colors.amber,
+                      child:
+                          Text("NEXT", style: TextStyle(color: Colors.black  ,fontSize: 24)),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      }),
+                ],
+              )
             ],
           ),
         ),
