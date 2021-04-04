@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/profile1.dart';
+import 'package:ChatApp/widgets/theme.dart';
 
 class Home extends StatefulWidget {
   final String phone_no;
@@ -10,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   String phoneNo;
+  bool _theme = true; // true => light , false  => dark
 
   TabController _tabController;
   final List chats = [
@@ -65,7 +67,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           Container(
             margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
             decoration: BoxDecoration(
-              color: Color(0xFFE5AE86), //Colors.orange[100],
+              color: Theme.of(context).cardColor, //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -142,15 +144,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return _tabController.index == 0
         ? FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.message , color: Colors.white ),
-            backgroundColor:Colors.red )
+            child: Icon(Icons.message, color: Colors.white),
+            backgroundColor: Colors.red)
         : null;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
+      theme: buildTheme(_theme),   /*ThemeData(
         appBarTheme: AppBarTheme(
             color: Color(0xFFE5AE86),
             textTheme: TextTheme(
@@ -162,7 +164,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         brightness: Brightness.dark,
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      ),*/
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -196,6 +198,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   leading: Icon(Icons.settings),
                   title: Text('Settings'),
                 ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Log out'),
+                ),
+                SwitchListTile(
+                  secondary: Icon(Icons.brightness_4_rounded) ,
+                    title: _theme? Text("Dark mode" , style :TextStyle(color:Colors.white)):Text("Light mode" ,style :TextStyle(color:Colors.black)),
+                    value: _theme,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _theme = value;
+                      }); },
+
+                    )
               ],
             ),
           ),
@@ -220,7 +236,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Tab(
                   child: Text("Calls",
                       style: TextStyle(color: Colors.black, fontSize: 22)),
-                  icon: Icon(Icons.phone , color: Colors.black),
+                  icon: Icon(Icons.phone, color: Colors.black),
                 ),
               ],
             ),
