@@ -9,10 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  String phoneNo;
 
-String phoneNo;
-
-  
   TabController _tabController;
   final List chats = [
     "chat 1",
@@ -38,10 +36,8 @@ String phoneNo;
     "call 4",
   ];
 
-
   @override
   void initState() {
-    
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabController.addListener(_handleTabIndex);
@@ -69,7 +65,7 @@ String phoneNo;
           Container(
             margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
             decoration: BoxDecoration(
-              color: Colors.orange[100],
+              color: Color(0xFFE5AE86), //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -78,14 +74,16 @@ String phoneNo;
                 side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
                 borderRadius: BorderRadius.circular(30),
               ),
-              title: Text(chats[i], style: TextStyle(fontSize: 24)),
+              title: Text(chats[i],
+                  style: TextStyle(color: Colors.black, fontSize: 24)),
             ),
           ),
         ]);
       },
     );
   }
-   Widget buildGrpChats() {
+
+  Widget buildGrpChats() {
     return ListView.builder(
       itemCount: grpchats.length,
       itemBuilder: (context, int i) {
@@ -95,7 +93,7 @@ String phoneNo;
           Container(
             margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
             decoration: BoxDecoration(
-              color: Colors.orange[100],
+              color: Colors.amber, //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -111,7 +109,8 @@ String phoneNo;
       },
     );
   }
-   Widget buildCalls() {
+
+  Widget buildCalls() {
     return ListView.builder(
       itemCount: calls.length,
       itemBuilder: (context, int i) {
@@ -121,12 +120,12 @@ String phoneNo;
           Container(
             margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
             decoration: BoxDecoration(
-              color: Colors.orange[100],
+              color: Colors.amber, //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
-            trailing:Icon(Icons.phone) ,
+              trailing: Icon(Icons.phone),
               shape: RoundedRectangleBorder(
                 side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
                 borderRadius: BorderRadius.circular(30),
@@ -143,14 +142,27 @@ String phoneNo;
     return _tabController.index == 0
         ? FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.message),
-            backgroundColor: Colors.amber)
+            child: Icon(Icons.message , color: Colors.white ),
+            backgroundColor:Colors.red )
         : null;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+            color: Color(0xFFE5AE86),
+            textTheme: TextTheme(
+                bodyText1: TextStyle(color: Colors.black, fontSize: 24),
+                headline6: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold))),
+        brightness: Brightness.dark,
+        primarySwatch: Colors.amber,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -174,8 +186,10 @@ String phoneNo;
                   leading: Icon(Icons.account_circle),
                   title: Text('Profile'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile(phoneNo)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Profile(phoneNo)));
                   },
                 ),
                 ListTile(
@@ -187,6 +201,7 @@ String phoneNo;
           ),
           floatingActionButton: _bottomButtons(),
           appBar: AppBar(
+            backgroundColor: Colors.amber[660],
             leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
@@ -196,9 +211,17 @@ String phoneNo;
             bottom: TabBar(
               controller: _tabController,
               tabs: [
-                Tab(text: "Chats"),
-                Tab(text: "Groups"),
-                Tab(text: "Calls" ,icon: Icon(Icons.phone),),
+                Tab(
+                    child: Text("Chats",
+                        style: TextStyle(color: Colors.black, fontSize: 22))),
+                Tab(
+                    child: Text("Groups",
+                        style: TextStyle(color: Colors.black, fontSize: 22))),
+                Tab(
+                  child: Text("Calls",
+                      style: TextStyle(color: Colors.black, fontSize: 22)),
+                  icon: Icon(Icons.phone , color: Colors.black),
+                ),
               ],
             ),
           ),
