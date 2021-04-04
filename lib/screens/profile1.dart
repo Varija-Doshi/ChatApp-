@@ -150,14 +150,17 @@ class _ProfileState extends State<Profile> {
                         height: 46,
                         width: 46,
                         child: FlatButton(
+                          padding: EdgeInsets.zero,
                           onPressed: openDialog,
                           color: Colors.grey[350],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                             side: BorderSide(color: Colors.white),
                           ),
-                          child:
-                              SvgPicture.asset("Assets/Icons/Camera Icon.svg"),
+                          child: SvgPicture.asset(
+                            "Assets/Icons/Camera Icon.svg",
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                     ),
