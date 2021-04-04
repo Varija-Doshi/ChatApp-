@@ -17,7 +17,10 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _statusController = TextEditingController();
   static String phoneNo, name = '', status = '';
   bool flag = true;
-  drt.File _image;
+  static ImageProvider _pic;
+  static drt.File _image;
+  static var image;
+  bool imagetype;
 
   @override
   void initState() {
@@ -25,10 +28,55 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
+  Future<void> openDialog() async {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                IconButton(
+                  iconSize: 40,
+                  icon: Icon(Icons.camera_alt),
+                  onPressed: () {
+                    setState(() {
+                      imagetype = true;
+                    });
+                    Navigator.of(context).pop();
+                    _getImage();
+                  },
+                  tooltip: "Camera",
+                ),
+                IconButton(
+                  iconSize: 40,
+                  icon: Icon(Icons.photo),
+                  onPressed: () {
+                    setState(() {
+                      imagetype = false;
+                    });
+                    Navigator.of(context).pop();
+                    _getImage();
+                  },
+                  tooltip: "Gallery",
+                ),
+              ]),
+        );
+      },
+    );
+  }
+
   Future _getImage() async {
-    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (imagetype)
+      image = await ImagePicker.pickImage(source: ImageSource.camera);
+    else
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _image = image;
+      if (image != null) {
+        _image = image;
+        _pic = Image.file(_image).image;
+      }
     });
   }
 
@@ -93,7 +141,7 @@ class _ProfileState extends State<Profile> {
                       backgroundImage: _image == null
                           ? NetworkImage(
                               'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80')
-                          : Image.file(_image),
+                          : _pic,
                     ),
                     Positioned(
                       right: -12,
@@ -102,7 +150,7 @@ class _ProfileState extends State<Profile> {
                         height: 46,
                         width: 46,
                         child: FlatButton(
-                          onPressed: _getImage,
+                          onPressed: openDialog,
                           color: Colors.grey[350],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
@@ -143,7 +191,7 @@ class _ProfileState extends State<Profile> {
                               TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                         subtitle: Text(
-                          name == "" ? "Full Name" : status,
+                          name == "" ? "Full Name" : name,
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -223,101 +271,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-/*SizedBox(
-                height: 70,
-              ),
-              CircleAvatar(
-                backgroundColor: Colors.grey[400],
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1459802071246-377c0346da93?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1795&q=80'),
-                radius: 80,
-              ),
-              Positioned(
-                child: SizedBox(
-                  child: FlatButton(
-                    color: Colors.green[600],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80),
-                      side: BorderSide(color: Colors.red),
-                    ),
-                    child: Text("Image"),
-                    /*child: Image(
-                      image: AssetImage(null),
-                    ),*/
-                    onPressed: null,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 74,
-                child: Text(
-                  "Name",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 70,
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      _nameController.text == ""
-                          ? "Full Name"
-                          : _nameController.text,
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      iconSize: 27,
-                      splashRadius: 27,
-                      onPressed: () {
-                        onPressed("Name", _nameController);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(
-                      child: ListTile(
-                        dense: false,
-                        isThreeLine: true,
-                        title: Text(
-                          "Status",
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.grey[700]),
-                        ),
-                        subtitle: Text(
-                          _statusController.text == ""
-                              ? "Hey There"
-                              : _statusController.text,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.black,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.edit),
-                          color: Colors.black,
-                          iconSize: 27,
-                          splashRadius: 27,
-                          onPressed: () {
-                            onPressed("Status", _statusController);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),*/
