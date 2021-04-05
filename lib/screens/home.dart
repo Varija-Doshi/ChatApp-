@@ -93,15 +93,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           if (i == 0)
             SizedBox(height: 15, width: MediaQuery.of(context).size.width),
           Container(
-            margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
+            margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 5.0),
             decoration: BoxDecoration(
-              color: Colors.amber, //Colors.orange[100],
+              color: Theme.of(context).cardColor, //Colors.orange[100],
               shape: BoxShape.rectangle,
+              //border:Border.all(width: 2.0, color: Colors.black),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
+                side: BorderSide(width: 20.0, color: Colors.lightBlue.shade50 ),
                 borderRadius: BorderRadius.circular(30),
               ),
               title: Text(grpchats[i], style: TextStyle(fontSize: 24)),
@@ -122,7 +123,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           Container(
             margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
             decoration: BoxDecoration(
-              color: Colors.amber, //Colors.orange[100],
+              color: Theme.of(context).cardColor, //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -145,14 +146,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ? FloatingActionButton(
             onPressed: () {},
             child: Icon(Icons.message, color: Colors.white),
-            backgroundColor: Colors.red)
+            backgroundColor:
+                Theme.of(context).floatingActionButtonTheme.foregroundColor)
         : null;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: buildTheme(_theme),   /*ThemeData(
+      theme: buildTheme(_theme),
+      /*ThemeData(
         appBarTheme: AppBarTheme(
             color: Color(0xFFE5AE86),
             textTheme: TextTheme(
@@ -172,18 +175,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                  ),
-                  child: Text(
-                    'Customise',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
+                 Container(
+                        height:100 , 
+                        color:_theme?  Colors.amber : Colors.red[200] ,
+                        child:
+                            Center(child: Text("Customise", style: TextStyle(fontSize: 30))),
+                      ),
                 ListTile(
                   leading: Icon(Icons.account_circle),
                   title: Text('Profile'),
@@ -203,28 +200,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   title: Text('Log out'),
                 ),
                 SwitchListTile(
-                  secondary: Icon(Icons.brightness_4_rounded) ,
-                    title: _theme? Text("Dark mode" , style :TextStyle(color:Colors.white)):Text("Light mode" ,style :TextStyle(color:Colors.black)),
-                    value: _theme,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _theme = value;
-                      }); },
-
-                    )
+                  secondary: Icon(Icons.brightness_4_rounded),
+                  title: Text("Dark mode"),
+                  /*style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color)),*/
+                  value: _theme,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _theme = value;
+                    });
+                    buildTheme(_theme);
+                  },
+                )
               ],
             ),
           ),
           floatingActionButton: _bottomButtons(),
           appBar: AppBar(
             backgroundColor: Colors.amber[660],
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
             title: Text("KahBoo"),
             bottom: TabBar(
+              labelColor: Theme.of(context).tabBarTheme.labelColor,
+              unselectedLabelColor:
+                  Theme.of(context).tabBarTheme.unselectedLabelColor,
               controller: _tabController,
               tabs: [
                 Tab(

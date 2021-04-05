@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:ChatApp/screens/profile1.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -131,48 +132,193 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
         key: _scaffoldKey,
-        body: Center(
+        body: SingleChildScrollView(
+          child: Container(
+            height: size.height,
+            width: size.width,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xffFFD400), Color(0xffFFDD3C)])),
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 50,
-              child: TextFormField(
-                initialValue: _phoneNoController == null ? "+91 " : null,
-                keyboardType: TextInputType.numberWithOptions(),
-                controller: _phoneNoController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.phone),
-                  hintText: "+91 xxxx xxxxxx ",
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 0.0)),
-                  contentPadding: const EdgeInsets.only(
-                      left: 14.0, bottom: 10.0, top: 10.0),
+              children: [
+                SizedBox(
+                  height: 100,
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0)),
-              color: Colors.orange[100],
-              textColor: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  " Verify ",
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                Stack(
+                  children: [
+                    ClipPath(
+                      clipper: DrawClip(),
+                      child: Container(
+                        height: 560,
+                        width: size.width - 50,
+                        color: Colors.white,
+                      ),
+                    ),
+                    /*Positioned(
+                    right: 5,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      child: Image( image: AssetImage('Assets/Icons/TrialLogo2.jpg'),fit: BoxFit.fill,),
+                    ),
+                  ),*/
+                    Positioned(
+                      left: 10,
+                      top: 150,
+                      child: Text(
+                        "Login",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            shadows: [
+                              Shadow(
+                                color: Colors.grey.shade500,
+                                offset: Offset(3.0, 3.0),
+                                blurRadius: 3.0,
+                              ),
+                              Shadow(
+                                color: Colors.white,
+                                offset: Offset(-3.0, 3.0),
+                                blurRadius: 3.0,
+                              ),
+                            ]),
+                      ),
+                    ),
+                    Positioned(
+                      left: 10,
+                      top: 250,
+                      child: Material(
+                        elevation: 10,
+                        child: Container(
+                          width: 320,
+                          child: TextFormField(
+                            initialValue:
+                                _phoneNoController == null ? "+91 " : null,
+                            keyboardType: TextInputType.numberWithOptions(),
+                            controller: _phoneNoController,
+                            decoration: InputDecoration(
+                              labelStyle: GoogleFonts.montserrat(
+                                color: Colors.black.withOpacity(0.7),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              labelText: "Phone Number",
+                              icon: Icon(Icons.phone),
+                              hintText: "+91 xxxx xxxxxx ",
+                              filled: true,
+                              fillColor: Colors.white,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 0.0)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 10.0, top: 10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 125,
+                      top: 330,
+                      child: Material(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0)),
+                        elevation: 0,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0)),
+                          color: Colors.orange[600],
+                          textColor: Colors.black,
+                          child: Text(
+                            " VERIFY",
+                            style: TextStyle(
+                                fontSize: 30.0, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            signInwithPhonenumber(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              onPressed: () {
-                signInwithPhonenumber(context);
-              },
+              ],
             ),
-          ],
-        )));
+          ),
+        ),
+      ),
+    );
   }
 }
+
+class DrawClip extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(0, 50);
+    path.quadraticBezierTo(0, 0, 50, 30);
+    path.lineTo(size.width, size.height / 3);
+    path.lineTo(size.width, size.height - 50);
+    path.quadraticBezierTo(
+        size.width, size.height, size.width - 50, size.height - 30);
+    path.lineTo(0, size.height * 2 / 3);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+/*Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 50,
+                child: TextFormField(
+                  initialValue: _phoneNoController == null ? "+91 " : null,
+                  keyboardType: TextInputType.numberWithOptions(),
+                  controller: _phoneNoController,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.phone),
+                    hintText: "+91 xxxx xxxxxx ",
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.black, width: 0.0)),
+                    contentPadding: const EdgeInsets.only(
+                        left: 14.0, bottom: 10.0, top: 10.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                color: Colors.orange[100],
+                textColor: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    " Verify ",
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                onPressed: () {
+                  signInwithPhonenumber(context);
+                },
+              ),
+            ],
+          ),
+        ), */

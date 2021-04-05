@@ -1,4 +1,4 @@
 Varija 
-- Dark mode
+- Dark mode (button like telegram)
 - Log out
 - validators for phone number text field
