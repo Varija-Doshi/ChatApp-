@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -34,32 +35,45 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (_) {
         return AlertDialog(
+          title: Text("Choose",textAlign: TextAlign.center, style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
           content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                IconButton(
-                  iconSize: 40,
-                  icon: Icon(Icons.camera_alt),
-                  onPressed: () {
-                    setState(() {
-                      imagetype = true;
-                    });
-                    Navigator.of(context).pop();
-                    _getImage();
-                  },
-                  tooltip: "Camera",
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      iconSize: 40,
+                      icon: Icon(Icons.camera_alt),
+                      onPressed: () {
+                        setState(() {
+                          imagetype = true;
+                        });
+                        Navigator.of(context).pop();
+                        _getImage();
+                      },
+                      tooltip: "Camera",
+                    ),
+                    Text("Camera", style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
+                  ],
                 ),
-                IconButton(
-                  iconSize: 40,
-                  icon: Icon(Icons.photo),
-                  onPressed: () {
-                    setState(() {
-                      imagetype = false;
-                    });
-                    Navigator.of(context).pop();
-                    _getImage();
-                  },
-                  tooltip: "Gallery",
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      iconSize: 40,
+                      icon: Icon(Icons.photo),
+                      onPressed: () {
+                        setState(() {
+                          imagetype = false;
+                        });
+                        Navigator.of(context).pop();
+                        _getImage();
+                      },
+                      tooltip: "Gallery",
+                    ),
+                    Text("Gallery" , style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
+                  ],
                 ),
               ]),
         );

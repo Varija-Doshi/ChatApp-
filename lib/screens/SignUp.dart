@@ -42,6 +42,77 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  Future<void> dialog(var verificationId) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Enter OTP",
+              style: GoogleFonts.montserrat(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 10.0,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                style: GoogleFonts.roboto(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 2.0)),
+                  contentPadding: const EdgeInsets.only(
+                      left: 14.0, bottom: 10.0, top: 10.0),
+                ),
+                controller: _codeController,
+              ),
+            ],
+          ),
+          actions: [
+            Icon(Icons.done, color: Colors.black, size: 30),
+            FlatButton(
+                onPressed: () async {
+                  PhoneAuthCredential phoneAuthCredential =
+                      PhoneAuthProvider.credential(
+                    verificationId: verificationId,
+                    smsCode: "123456",
+                  ); //_codeController.text.trim());
+                  await _auth.signInWithCredential(phoneAuthCredential);
+                  Navigator.of(context).pop();
+                  showSnackbar(
+                      "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}",
+                      context);
+                  // Copy the navigation code from varification completed
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Profile(_phoneNoController.text)));
+                },
+                child: Text(
+                  "CONFIRM",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                textColor: Colors.black)
+          ],
+        );
+      },
+    );
+  }
+
   void signInwithPhonenumber(BuildContext context) async {
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
@@ -71,46 +142,7 @@ class _SignUpState extends State<SignUp> {
       showSnackbar(
           'Please check your phone for the verification code.', context);
       _verificationId = verificationId;
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Enter OTP"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextField(
-                  controller: _codeController,
-                ),
-              ],
-            ),
-            actions: [
-              FlatButton(
-                  onPressed: () async {
-                    PhoneAuthCredential phoneAuthCredential =
-                        PhoneAuthProvider.credential(
-                      verificationId: verificationId,
-                      smsCode: "123456",
-                    ); //_codeController.text.trim());
-                    await _auth.signInWithCredential(phoneAuthCredential);
-                    Navigator.of(context).pop();
-                    showSnackbar(
-                        "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}",
-                        context);
-                    // Copy the navigation code from varification completed
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Profile(_phoneNoController.text)));
-                  },
-                  child: Text("Confirm"),
-                  textColor: Colors.black)
-            ],
-          );
-        },
-      );
+      dialog(verificationId);
     };
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
@@ -167,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),*/
                     Positioned(
-                      left: 10,
+                      left: 30,
                       top: 150,
                       child: Text(
                         "Login",
@@ -190,33 +222,38 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     Positioned(
-                      left: 10,
+                      left: 30,
                       top: 250,
                       child: Material(
                         elevation: 10,
                         child: Container(
                           width: 320,
                           child: TextFormField(
+                            style: GoogleFonts.roboto(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                             initialValue:
                                 _phoneNoController == null ? "+91 " : null,
                             keyboardType: TextInputType.numberWithOptions(),
                             controller: _phoneNoController,
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.phone ,color: Colors.black),
                               labelStyle: GoogleFonts.montserrat(
                                 color: Colors.black.withOpacity(0.7),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 20,
                               ),
                               border: UnderlineInputBorder(
                                   borderSide: BorderSide.none),
                               labelText: "Phone Number",
-                              icon: Icon(Icons.phone),
                               hintText: "+91 xxxx xxxxxx ",
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.black, width: 0.0)),
+                                      color: Colors.black, width: 2.0)),
                               contentPadding: const EdgeInsets.only(
                                   left: 14.0, bottom: 10.0, top: 10.0),
                             ),

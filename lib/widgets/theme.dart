@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData buildTheme(bool theme) {
+  
   TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
         headline5: base.headline5.copyWith(
@@ -43,7 +44,7 @@ ThemeData buildTheme(bool theme) {
         size: 20.0,
       ),
       buttonColor: theme?  Colors.amber : Colors.red,
-      floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: theme?  Colors.amber : Colors.red),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(foregroundColor:theme?  Colors.amber : Colors.red,backgroundColor: theme?  Colors.amber : Colors.red),
       backgroundColor:theme?  Colors.amber : Colors.red,
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: const Color(0xFF807A6B),

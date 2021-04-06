@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   String phoneNo;
-  bool _theme = true; // true => light , false  => dark
+  bool _theme = false; // true => light , false  => dark
 
   TabController _tabController;
   final List chats = [
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return _tabController.index == 0
         ? FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.message, color: Colors.white),
+            child: Icon(Icons.message, color: _theme?Colors.white:Colors.black ,size: 30 ),
             backgroundColor:
                 Theme.of(context).floatingActionButtonTheme.foregroundColor)
         : null;
