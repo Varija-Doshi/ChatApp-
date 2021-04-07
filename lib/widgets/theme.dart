@@ -44,7 +44,7 @@ ThemeData buildTheme(bool theme) {
         size: 20.0,
       ),
       buttonColor: theme?  Colors.amber : Colors.red,
-      floatingActionButtonTheme: FloatingActionButtonThemeData(foregroundColor:theme?  Colors.amber : Colors.red,backgroundColor: theme?  Colors.amber : Colors.red),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(foregroundColor:theme?  Colors.blue[900] : Colors.red,backgroundColor: theme?  Colors.blue[900] : Colors.red),
       backgroundColor:theme?  Colors.amber : Colors.red,
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: const Color(0xFF807A6B),

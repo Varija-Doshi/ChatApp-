@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/profile1.dart';
 import 'package:ChatApp/widgets/theme.dart';
+import 'package:ChatApp/model/message_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   final String phone_no;
@@ -14,17 +16,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   bool _theme = false; // true => light , false  => dark
 
   TabController _tabController;
-  final List chats = [
-    "chat 1",
-    "chat 2",
-    "chat 3",
-    "chat 4",
-    "chat 5",
-    "chat 6",
-    "chat 7",
-    "chat 8",
-    "chat 9"
-  ];
+
   final List grpchats = [
     "grp chat 1",
     "grp chat 2",
@@ -59,26 +51,74 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   Widget buildChats() {
     return ListView.builder(
-      itemCount: chats.length,
+      itemCount: chats == null ? 4 : chats.length,
       itemBuilder: (context, int i) {
+        final Message chat = chats[i];
         return Column(children: <Widget>[
           if (i == 0)
             SizedBox(height: 15, width: MediaQuery.of(context).size.width),
           Container(
-            margin: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
+            margin: EdgeInsets.fromLTRB(10.0, 10.0, 5.0, .0),
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor, //Colors.orange[100],
+              color: chat.unread
+                  ? Theme.of(context).cardColor
+                  : _theme? Colors.black12: Colors.white , //Colors.orange[100],
               shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.0),
+                bottomRight: Radius.circular(25.0),
+                topLeft: Radius.circular(10.0),
+                bottomLeft: Radius.circular(10.0),
+              ),
             ),
             child: ListTile(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              title: Text(chats[i],
-                  style: TextStyle(color: Colors.black, fontSize: 24)),
-            ),
+                isThreeLine: true,
+                trailing: Column(
+                  children: <Widget>[
+                    Text(
+                      chat.time,
+                      style: TextStyle(
+                        color: Color(0xFF403527) ,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    chat.unread
+                        ? Container(
+                            width: 40.0,
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              color: _theme? Colors.blue[900] :Colors.red,
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'NEW',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : Text(''),
+                  ],
+                ),
+                leading: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: AssetImage(
+                      'Assets/Images/30916342.jpg'), // this is dummy profile image
+                ),
+                shape: RoundedRectangleBorder(
+                  side:
+                      BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                title: Text(chat.sender.name,
+                    style: TextStyle(color: Colors.black, fontSize: 24)),
+                subtitle: Text(chat.text,
+                    style: TextStyle(color: Colors.black87, fontSize: 22))),
           ),
         ]);
       },
@@ -102,7 +142,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
             child: ListTile(
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 20.0, color: Colors.lightBlue.shade50 ),
+                side: BorderSide(width: 20.0, color: Colors.lightBlue.shade50),
                 borderRadius: BorderRadius.circular(30),
               ),
               title: Text(grpchats[i], style: TextStyle(fontSize: 24)),
@@ -145,7 +185,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return _tabController.index == 0
         ? FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.message, color: _theme?Colors.white:Colors.black ,size: 30 ),
+            child: Icon(Icons.message,
+                color: Colors.white  , size: 30),
             backgroundColor:
                 Theme.of(context).floatingActionButtonTheme.foregroundColor)
         : null;
@@ -155,19 +196,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: buildTheme(_theme),
-      /*ThemeData(
-        appBarTheme: AppBarTheme(
-            color: Color(0xFFE5AE86),
-            textTheme: TextTheme(
-                bodyText1: TextStyle(color: Colors.black, fontSize: 24),
-                headline6: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold))),
-        brightness: Brightness.dark,
-        primarySwatch: Colors.amber,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),*/
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -175,15 +203,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                 Container(
-                        height:100 , 
-                        color:_theme?  Colors.amber : Colors.red[200] ,
-                        child:
-                            Center(child: Text("Customise", style: TextStyle(fontSize: 30))),
-                      ),
+                Container(
+                  height: 100,
+                  color: _theme ? Colors.amber : Colors.red[200],
+                  child: Center(
+                      child: Text("Customise", style:  GoogleFonts.lato(fontSize: 30 , fontWeight: FontWeight.bold))),
+                ),
                 ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: Text('Profile'),
+                  leading: Icon(Icons.account_circle , size: 35),
+                  title: Text('Profile' , style: GoogleFonts.lato(fontSize: 24 )),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -191,23 +219,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             builder: (context) => Profile(phoneNo)));
                   },
                 ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Settings'),
+                 ListTile(
+                  leading: Icon(Icons.group_add , size: 35),
+                  title: Text('New group' , style: GoogleFonts.lato(fontSize: 24)),
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Log out'),
+                  leading: Icon(Icons.settings , size: 35),
+                  title: Text('Settings', style: GoogleFonts.lato(fontSize: 24 )),
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout , size: 35),
+                  title: Text('Log out' , style: GoogleFonts.lato(fontSize: 24 )),
                 ),
                 SwitchListTile(
-                  secondary: Icon(Icons.brightness_4_rounded),
-                  title: Text("Dark mode"),
+                  secondary: Icon(Icons.brightness_4_rounded , size: 35),
+                  title: Text("Dark mode" , style: GoogleFonts.lato(fontSize: 24)),
                   /*style: TextStyle(
                           color: Theme.of(context).textTheme.headline6.color)),*/
-                  value: _theme,
+                  value: !_theme,
                   onChanged: (bool value) {
                     setState(() {
-                      _theme = value;
+                      _theme = !value;
                     });
                     buildTheme(_theme);
                   },
@@ -217,7 +249,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
           floatingActionButton: _bottomButtons(),
           appBar: AppBar(
-            backgroundColor: Colors.amber[660],
+          
             title: Text("KahBoo"),
             bottom: TabBar(
               labelColor: Theme.of(context).tabBarTheme.labelColor,
