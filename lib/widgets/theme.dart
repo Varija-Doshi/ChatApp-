@@ -28,6 +28,7 @@ ThemeData buildTheme(bool theme) {
 
   // And apply changes on it:
   return base.copyWith(
+    primaryIconTheme: IconThemeData(color:theme? Colors.black:Colors.white),
     appBarTheme: AppBarTheme(
             color: theme? const Color(0xFFE5AE86) : const Color(0xFFe3bb9d),
             textTheme: TextTheme(
@@ -43,9 +44,9 @@ ThemeData buildTheme(bool theme) {
         color: theme? Colors.black : Colors.white,
         size: 20.0,
       ),
-      buttonColor: theme?  Colors.amber : Colors.red,
+      buttonColor: theme?  Colors.blue[200] : Colors.red,
       floatingActionButtonTheme: FloatingActionButtonThemeData(foregroundColor:theme?  Colors.blue[900] : Colors.red,backgroundColor: theme?  Colors.blue[900] : Colors.red),
-      backgroundColor:theme?  Colors.amber : Colors.red,
+      backgroundColor:theme?  Colors.blue[200]:Colors.red,
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: const Color(0xFF807A6B),
         unselectedLabelColor: const Color(0xFFCCC5AF),

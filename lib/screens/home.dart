@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/profile1.dart';
+import 'package:ChatApp/screens/contacts_page.dart';
 import 'package:ChatApp/widgets/theme.dart';
 import 'package:ChatApp/model/message_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
   final String phone_no;
@@ -49,6 +51,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<PermissionStatus> _getPermission() async {
+    final PermissionStatus permission = await Permission.contacts.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus =
+          await [Permission.contacts].request();
+      return permissionStatus[Permission.contacts] ??
+          PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
+  }
+
   Widget buildChats() {
     return ListView.builder(
       itemCount: chats == null ? 4 : chats.length,
@@ -62,7 +77,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             decoration: BoxDecoration(
               color: chat.unread
                   ? Theme.of(context).cardColor
-                  : _theme? Colors.black12: Colors.white , //Colors.orange[100],
+                  : _theme
+                      ? Colors.black12
+                      : Colors.white, //Colors.orange[100],
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(25.0),
@@ -78,7 +95,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     Text(
                       chat.time,
                       style: TextStyle(
-                        color: Color(0xFF403527) ,
+                        color: Color(0xFF403527),
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -89,7 +106,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             width: 40.0,
                             height: 20.0,
                             decoration: BoxDecoration(
-                              color: _theme? Colors.blue[900] :Colors.red,
+                              color: _theme ? Colors.blue[900] : Colors.red,
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             alignment: Alignment.center,
@@ -184,9 +201,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget _bottomButtons() {
     return _tabController.index == 0
         ? FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.message,
-                color: Colors.white  , size: 30),
+            onPressed: () {
+              Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactsPage(title:"Select Contacts")));
+            },
+            child: Icon(Icons.message, color: Colors.white, size: 30),
             backgroundColor:
                 Theme.of(context).floatingActionButtonTheme.foregroundColor)
         : null;
@@ -207,11 +228,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   height: 100,
                   color: _theme ? Colors.amber : Colors.red[200],
                   child: Center(
-                      child: Text("Customise", style:  GoogleFonts.lato(fontSize: 30 , fontWeight: FontWeight.bold))),
+                      child: Text("Customise",
+                          style: GoogleFonts.lato(
+                              fontSize: 30, fontWeight: FontWeight.bold))),
                 ),
                 ListTile(
-                  leading: Icon(Icons.account_circle , size: 35),
-                  title: Text('Profile' , style: GoogleFonts.lato(fontSize: 24 )),
+                  leading: Icon(Icons.account_circle, size: 35),
+                  title: Text('Profile', style: GoogleFonts.lato(fontSize: 24)),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -219,21 +242,58 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             builder: (context) => Profile(phoneNo)));
                   },
                 ),
-                 ListTile(
-                  leading: Icon(Icons.group_add , size: 35),
-                  title: Text('New group' , style: GoogleFonts.lato(fontSize: 24)),
+                ListTile(
+                  leading: Icon(Icons.group_add, size: 35),
+                  title:
+                      Text('New group', style: GoogleFonts.lato(fontSize: 24)),
+                  onTap: () async {
+                    final PermissionStatus permissionStatus =
+                        await _getPermission();
+                    if (permissionStatus == PermissionStatus.granted) {
+                      //We can now access our contacts here
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactsPage(title:"New Group")));
+                    } else {
+                      return showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: Text('Permissions error'),
+                                content: Text('Please enable contacts access '
+                                    'permission in system settings'),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text(
+                                      'OK',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    textColor: Colors.black,
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                  )
+                                ],
+                              ));
+                    }
+                  },
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings , size: 35),
-                  title: Text('Settings', style: GoogleFonts.lato(fontSize: 24 )),
+                  leading: Icon(Icons.settings, size: 35),
+                  title:
+                      Text('Settings', style: GoogleFonts.lato(fontSize: 24)),
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout , size: 35),
-                  title: Text('Log out' , style: GoogleFonts.lato(fontSize: 24 )),
+                  leading: Icon(Icons.logout, size: 35),
+                  title: Text('Log out', style: GoogleFonts.lato(fontSize: 24)),
                 ),
                 SwitchListTile(
-                  secondary: Icon(Icons.brightness_4_rounded , size: 35),
-                  title: Text("Dark mode" , style: GoogleFonts.lato(fontSize: 24)),
+                  secondary: Icon(Icons.brightness_4_rounded, size: 35),
+                  title:
+                      Text("Dark mode", style: GoogleFonts.lato(fontSize: 24)),
                   /*style: TextStyle(
                           color: Theme.of(context).textTheme.headline6.color)),*/
                   value: !_theme,
@@ -249,7 +309,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
           floatingActionButton: _bottomButtons(),
           appBar: AppBar(
-          
             title: Text("KahBoo"),
             bottom: TabBar(
               labelColor: Theme.of(context).tabBarTheme.labelColor,
