@@ -35,7 +35,12 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("Choose",textAlign: TextAlign.center, style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
+          title: Text("Choose",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
           content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -54,7 +59,11 @@ class _ProfileState extends State<Profile> {
                       },
                       tooltip: "Camera",
                     ),
-                    Text("Camera", style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
+                    Text("Camera",
+                        style: GoogleFonts.roboto(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
                   ],
                 ),
                 Column(
@@ -72,7 +81,11 @@ class _ProfileState extends State<Profile> {
                       },
                       tooltip: "Gallery",
                     ),
-                    Text("Gallery" , style: GoogleFonts.roboto(fontSize: 24 , fontWeight: FontWeight.bold , color:Colors.black)),
+                    Text("Gallery",
+                        style: GoogleFonts.roboto(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
                   ],
                 ),
               ]),
