@@ -1,12 +1,10 @@
 import 'dart:io' as drt;
 
-import 'package:ChatApp/widgets/Day_Night_Switch.dart';
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ChatApp/widgets/Day_Night_Switch.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -94,6 +92,13 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  bool toggleValue = false;
+  toggleButton() {
+    setState(() {
+      toggleValue = !toggleValue;
+    });
   }
 
   Future _getImage() async {
@@ -192,6 +197,40 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
+                    Positioned(
+                      left: 180,
+                      bottom: 50,
+                      child: SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: InkWell(
+                          onTap: toggleButton,
+                          child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 500),
+                            transitionBuilder:
+                                (Widget child, Animation<double> animation) {
+                              return RotationTransition(
+                                turns: animation,
+                                child: child,
+                              );
+                            },
+                            child: toggleValue
+                                ? Icon(
+                                    Icons.wb_sunny_rounded,
+                                    color: Colors.yellow,
+                                    size: 60,
+                                    key: UniqueKey(),
+                                  )
+                                : Icon(
+                                    Icons.nights_stay_sharp,
+                                    color: Colors.blue[900],
+                                    size: 60,
+                                    key: UniqueKey(),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -296,7 +335,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
-              SizedBox(height: 40, width: 40, child: Day_Night_Switch()),
             ],
           ),
         ),
