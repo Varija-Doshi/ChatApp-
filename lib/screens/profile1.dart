@@ -1,10 +1,12 @@
 import 'dart:io' as drt;
 
+import 'package:ChatApp/widgets/Day_Night_Switch.dart';
 import 'package:flutter/material.dart';
 import 'package:ChatApp/screens/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ChatApp/widgets/Day_Night_Switch.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -282,17 +284,19 @@ class _ProfileState extends State<Profile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
-                      color: Colors.amber,
-                      child: Text("NEXT",
-                          style: TextStyle(color: Colors.black, fontSize: 24)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Home(phoneNo)));
-                      }),
+                    color: Colors.amber,
+                    child: Text("NEXT",
+                        style: TextStyle(color: Colors.black, fontSize: 24)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Home(phoneNo)));
+                    },
+                  ),
                 ],
-              )
+              ),
+              SizedBox(height: 40, width: 40, child: Day_Night_Switch()),
             ],
           ),
         ),

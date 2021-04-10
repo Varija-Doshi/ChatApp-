@@ -36,6 +36,7 @@ dependencies:
   google_fonts:
   permission_handler: ^5.0.0
   contacts_service: ^0.3.10
+  rive: ^0.6.8
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,7 @@ flutter:
   assets:
     - Assets/Icons/
     - Assets/Images/
+    - Assets/Rive_Animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
