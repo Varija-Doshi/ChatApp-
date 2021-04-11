@@ -27,7 +27,7 @@ class _ProfileState extends State<Profile> {
     super.initState();
     setState(() {
       currentUser.phoneNo = widget.phone_no;
-      currentUser.name = "Full Name";
+ 
     });
   }
 
@@ -199,7 +199,7 @@ class _ProfileState extends State<Profile> {
                 height: 60,
               ),
               Text(
-                "Phone Number : ",
+                "Phone Number : " +currentUser.phoneNo,
                 style: TextStyle(
                   fontSize: 24,
                 ),
