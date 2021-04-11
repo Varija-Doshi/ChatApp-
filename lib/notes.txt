@@ -1,7 +1,8 @@
 Varija 
-- Dark mode (button like telegram) {Left/Bottom arguments remove karne pe it works}
+- Dark mode (button like telegram)
 - Log out
 - validators for phone number text field
+- Status Page
 
 Future plans:
 - Self messaging
