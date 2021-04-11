@@ -1,11 +1,17 @@
+import 'package:flutter/cupertino.dart';
+
 class User {
-  final int phoneNo;
-  final String name;
-  final String imageUrl;
+  String phoneNo;
+  String name = "";
+  ImageProvider imageUrl = AssetImage('Assets/Images/30916342.jpg');
+  String status = "";
 
   User({
     this.phoneNo,
     this.name,
     this.imageUrl,
+    this.status,
   });
 }
+
+User currentUser = new User();

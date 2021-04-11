@@ -5,6 +5,7 @@ import 'package:ChatApp/screens/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ChatApp/model/user_model.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -16,17 +17,18 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
-  static String phoneNo, name = '', status = '';
   bool flag = true;
-  static ImageProvider _pic;
   static drt.File _image;
   static var image;
   bool imagetype;
 
   @override
   void initState() {
-    phoneNo = widget.phone_no;
     super.initState();
+    setState(() {
+      currentUser.phoneNo = widget.phone_no;
+      currentUser.name = "Full Name";
+    });
   }
 
   Future<void> openDialog() async {
@@ -94,8 +96,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  
-
   Future _getImage() async {
     if (imagetype)
       image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       if (image != null) {
         _image = image;
-        _pic = Image.file(_image).image;
+        currentUser.imageUrl = Image.file(_image).image;
       }
     });
   }
@@ -129,9 +129,9 @@ class _ProfileState extends State<Profile> {
               onPressed: () {
                 setState(() {
                   if (flag) {
-                    name = _controller.text;
+                    currentUser.name = _controller.text;
                   } else
-                    status = _controller.text;
+                    currentUser.status = _controller.text;
                 });
                 Navigator.of(context).pop();
               },
@@ -169,7 +169,7 @@ class _ProfileState extends State<Profile> {
                       backgroundColor: Colors.grey[400],
                       backgroundImage: _image == null
                           ? AssetImage('Assets/Images/30916342.jpg')
-                          : _pic,
+                          : currentUser.imageUrl,
                     ),
                     Positioned(
                       right: -12,
@@ -199,7 +199,7 @@ class _ProfileState extends State<Profile> {
                 height: 60,
               ),
               Text(
-                "Phone Number : " + phoneNo,
+                "Phone Number : ",
                 style: TextStyle(
                   fontSize: 24,
                 ),
@@ -222,7 +222,9 @@ class _ProfileState extends State<Profile> {
                               TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                         subtitle: Text(
-                          name == "" ? "Full Name" : name,
+                          currentUser.name == ""
+                              ? "Full Name"
+                              : currentUser.name,
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -258,7 +260,9 @@ class _ProfileState extends State<Profile> {
                               TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                         subtitle: Text(
-                          status == "" ? "Hey There" : status,
+                          currentUser.status == ""
+                              ? "Hey There"
+                              : currentUser.status,
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -291,7 +295,8 @@ class _ProfileState extends State<Profile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Home(phoneNo)));
+                              builder: (context) =>
+                                  Home(currentUser.phoneNo, currentUser)));
                     },
                   ),
                 ],

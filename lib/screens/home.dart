@@ -5,10 +5,12 @@ import 'package:ChatApp/widgets/theme.dart';
 import 'package:ChatApp/model/message_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ChatApp/model/user_model.dart';
 
 class Home extends StatefulWidget {
   final String phone_no;
-  Home(this.phone_no);
+  final User user;
+  Home(this.phone_no, this.user);
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
@@ -100,7 +102,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 isThreeLine: true,
                 trailing: Column(
                   children: <Widget>[
-                    //Column of time and NEW 
+                    //Column of time and NEW
                     Text(
                       chat.time,
                       style: TextStyle(
@@ -264,6 +266,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   ),
                           ),
                         ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: widget.user.imageUrl,
+                          ),
+                          Text(widget.user.name,
+                              style: GoogleFonts.lato(fontSize: 18))
+                        ],
                       ),
                     ],
                   ),
