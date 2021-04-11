@@ -51,6 +51,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  bool toggleValue = false;
+  toggleButton() {
+    setState(() {
+      _theme = !_theme;
+    });
+    buildTheme(_theme);
+  }
+
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
@@ -203,9 +211,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ? FloatingActionButton(
             onPressed: () {
               Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ContactsPage(title:"Select Contacts")));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ContactsPage(title: "Select Contacts")));
             },
             child: Icon(Icons.message, color: Colors.white, size: 30),
             backgroundColor:
@@ -227,10 +236,40 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Container(
                   height: 100,
                   color: _theme ? Colors.amber : Colors.red[200],
-                  child: Center(
-                      child: Text("Customise",
-                          style: GoogleFonts.lato(
-                              fontSize: 30, fontWeight: FontWeight.bold))),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: InkWell(
+                          onTap: toggleButton,
+                          child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 500),
+                            transitionBuilder:
+                                (Widget child, Animation<double> animation) {
+                              return RotationTransition(
+                                turns: animation,
+                                child: child,
+                              );
+                            },
+                            child: _theme
+                                ? Icon(
+                                    Icons.wb_sunny_rounded,
+                                    color: Colors.yellow,
+                                    size: 40,
+                                    key: UniqueKey(),
+                                  )
+                                : Icon(
+                                    Icons.nights_stay_sharp,
+                                    color: Colors.blue[900],
+                                    size: 40,
+                                    key: UniqueKey(),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 ListTile(
                   leading: Icon(Icons.account_circle, size: 35),
@@ -254,7 +293,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ContactsPage(title:"New Group")));
+                              builder: (context) =>
+                                  ContactsPage(title: "New Group")));
                     } else {
                       return showDialog(
                           context: context,
@@ -290,20 +330,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   leading: Icon(Icons.logout, size: 35),
                   title: Text('Log out', style: GoogleFonts.lato(fontSize: 24)),
                 ),
-                SwitchListTile(
-                  secondary: Icon(Icons.brightness_4_rounded, size: 35),
-                  title:
-                      Text("Dark mode", style: GoogleFonts.lato(fontSize: 24)),
-                  /*style: TextStyle(
-                          color: Theme.of(context).textTheme.headline6.color)),*/
-                  value: !_theme,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _theme = !value;
-                    });
-                    buildTheme(_theme);
-                  },
-                )
               ],
             ),
           ),

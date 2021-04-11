@@ -94,12 +94,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  bool toggleValue = false;
-  toggleButton() {
-    setState(() {
-      toggleValue = !toggleValue;
-    });
-  }
+  
 
   Future _getImage() async {
     if (imagetype)
@@ -197,40 +192,6 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      left: 180,
-                      bottom: 50,
-                      child: SizedBox(
-                        height: 60,
-                        width: 60,
-                        child: InkWell(
-                          onTap: toggleButton,
-                          child: AnimatedSwitcher(
-                            duration: Duration(milliseconds: 500),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              return RotationTransition(
-                                turns: animation,
-                                child: child,
-                              );
-                            },
-                            child: toggleValue
-                                ? Icon(
-                                    Icons.wb_sunny_rounded,
-                                    color: Colors.yellow,
-                                    size: 60,
-                                    key: UniqueKey(),
-                                  )
-                                : Icon(
-                                    Icons.nights_stay_sharp,
-                                    color: Colors.blue[900],
-                                    size: 60,
-                                    key: UniqueKey(),
-                                  ),
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),

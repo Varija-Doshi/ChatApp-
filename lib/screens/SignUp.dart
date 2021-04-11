@@ -239,7 +239,8 @@ class _SignUpState extends State<SignUp> {
                             keyboardType: TextInputType.numberWithOptions(),
                             controller: _phoneNoController,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.phone ,color: Colors.black),
+                              prefixIcon:
+                                  Icon(Icons.phone, color: Colors.black),
                               labelStyle: GoogleFonts.montserrat(
                                 color: Colors.black.withOpacity(0.7),
                                 fontWeight: FontWeight.bold,
