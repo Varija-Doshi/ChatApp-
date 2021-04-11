@@ -92,6 +92,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 isThreeLine: true,
                 trailing: Column(
                   children: <Widget>[
+                    //Column of time and NEW 
                     Text(
                       chat.time,
                       style: TextStyle(
@@ -186,10 +187,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
             child: ListTile(
               trailing: Icon(Icons.phone),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
-                borderRadius: BorderRadius.circular(30),
-              ),
               title: Text(calls[i], style: TextStyle(fontSize: 24)),
             ),
           ),
