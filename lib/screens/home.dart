@@ -233,8 +233,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 Container(
-                  height: 100,
-                  color: _theme ? Colors.amber : Colors.red[200],
+                  height: 170,
+                  color: _theme ? Colors.blue[100] : Colors.red[200],
                   child: Row(
                     children: <Widget>[
                       SizedBox(
@@ -254,26 +254,34 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             child: _theme
                                 ? Icon(
                                     Icons.wb_sunny_rounded,
-                                    color: Colors.yellow,
+                                    color: Colors.yellow[800],
                                     size: 40,
                                     key: UniqueKey(),
                                   )
                                 : Icon(
                                     Icons.nights_stay_sharp,
-                                    color: Colors.blue[900],
+                                    color: Colors.black,
                                     size: 40,
                                     key: UniqueKey(),
                                   ),
                           ),
                         ),
                       ),
+                      SizedBox(width: MediaQuery.of(context).size.width /7),
                       Column(
                         children: <Widget>[
+                          SizedBox(height: MediaQuery.of(context).size.width / 20 ),
                           CircleAvatar(
+                            radius: 35,
                             backgroundImage: widget.user.imageUrl,
                           ),
                           Text(widget.user.name,
-                              style: GoogleFonts.lato(fontSize: 18))
+                              style: GoogleFonts.lato(
+                                  fontSize: 22, color: Colors.black)),
+                          Text(widget.user.phoneNo,
+                              style: GoogleFonts.lato(
+                                  fontSize: 22, color: Colors.black)),
+                          SizedBox(height: MediaQuery.of(context).size.width / 20 ),
                         ],
                       ),
                     ],

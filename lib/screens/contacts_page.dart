@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ChatApp/screens/newgroup.dart';
 
 // the list tiles are not having a rounded shape
 class ContactsPage extends StatefulWidget {
@@ -194,7 +195,13 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          NewGroup(_selectedContacts)));
+        },
         child: Icon(Icons.navigate_next, size: 30, color: Colors.white),
       ),
       appBar: AppBar(

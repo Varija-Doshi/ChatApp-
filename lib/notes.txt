@@ -2,6 +2,7 @@ Varija
 - Dark mode (button like telegram) {Left/Bottom arguments remove karne pe it works}
 - Log out
 - validators for phone number text field
+- Add the search contact txt field
 
 Future plans:
 - Self messaging
