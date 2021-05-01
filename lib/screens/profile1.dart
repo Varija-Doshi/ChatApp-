@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ChatApp/model/user_model.dart';
+import 'package:ChatApp/screens/Status.dart';
 
 class Profile extends StatefulWidget {
   final String phone_no;
@@ -274,7 +275,13 @@ class _ProfileState extends State<Profile> {
                           splashRadius: 27,
                           onPressed: () {
                             flag = false;
-                            onPressed("Status", _statusController);
+                            ///onPressed("Status", _statusController);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Status(),
+                              ),
+                            );
                           },
                         ),
                       ),
