@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class User {
   String phoneNo;
-  String name ;
+  String name;
   ImageProvider imageUrl = AssetImage('Assets/Images/30916342.jpg');
   String status = "";
 
