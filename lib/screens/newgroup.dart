@@ -89,6 +89,20 @@ class _NewGroupState extends State<NewGroup> {
                             color: Colors.black)),
                   ],
                 ),
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _image = null;
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Remove",
+                      style: GoogleFonts.roboto(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
               ]),
         );
       },
@@ -116,7 +130,6 @@ class _NewGroupState extends State<NewGroup> {
                         widget.selectedContacts[i].displayName,
                         style: GoogleFonts.roboto(
                           fontSize: 18,
-                          
                           color: Colors.black,
                         ),
                       ),
@@ -125,7 +138,7 @@ class _NewGroupState extends State<NewGroup> {
                       )*/
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width* 0.04),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.04),
                 ],
               )
             : Row(
@@ -142,7 +155,6 @@ class _NewGroupState extends State<NewGroup> {
                         widget.selectedContacts[i].displayName,
                         style: GoogleFonts.roboto(
                           fontSize: 18,
-                         
                           color: Colors.black,
                         ),
                       ),
@@ -151,7 +163,7 @@ class _NewGroupState extends State<NewGroup> {
                       )*/
                     ],
                   ),
-                  SizedBox(width:  MediaQuery.of(context).size.width* 0.04),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.04),
                 ],
               );
       },
@@ -179,7 +191,7 @@ class _NewGroupState extends State<NewGroup> {
               backgroundColor: Colors.grey[400],
               backgroundImage: _image == null
                   ? AssetImage('Assets/Images/30916342.jpg')
-                  : image,
+                  : Image.file(_image).image,
             ),
           ),
           SizedBox(
@@ -225,7 +237,6 @@ class _NewGroupState extends State<NewGroup> {
           Text(
             "Participants: ${widget.selectedContacts.length} ",
             style: GoogleFonts.montserrat(
-             
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
@@ -235,7 +246,7 @@ class _NewGroupState extends State<NewGroup> {
           ),
           Expanded(
             child: Padding(
-              padding:EdgeInsets.all(15),
+              padding: EdgeInsets.all(15),
               child: listView(),
             ),
           ),
