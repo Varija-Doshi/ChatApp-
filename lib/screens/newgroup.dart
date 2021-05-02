@@ -97,6 +97,7 @@ class _NewGroupState extends State<NewGroup> {
 
   Widget listView() {
     return ListView.builder(
+      scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       itemCount: widget.selectedContacts.length,
       itemBuilder: (context, i) {
@@ -107,13 +108,24 @@ class _NewGroupState extends State<NewGroup> {
                   Column(
                     children: <Widget>[
                       CircleAvatar(
+                        radius: 25,
                         backgroundImage:
                             MemoryImage(widget.selectedContacts[i].avatar),
                       ),
-                      Text(widget.selectedContacts[i].displayName),
+                      Text(
+                        widget.selectedContacts[i].displayName,
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          
+                          color: Colors.black,
+                        ),
+                      ),
+                      /*SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      )*/
                     ],
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: MediaQuery.of(context).size.width* 0.04),
                 ],
               )
             : Row(
@@ -121,14 +133,25 @@ class _NewGroupState extends State<NewGroup> {
                   Column(
                     children: <Widget>[
                       CircleAvatar(
+                        radius: 25,
                         child: Text(widget.selectedContacts[i].initials(),
                             style: TextStyle(color: Colors.white)),
                         backgroundColor: Theme.of(context).accentColor,
                       ),
-                      Text(widget.selectedContacts[i].displayName),
+                      Text(
+                        widget.selectedContacts[i].displayName,
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                         
+                          color: Colors.black,
+                        ),
+                      ),
+                      /*SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      )*/
                     ],
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width:  MediaQuery.of(context).size.width* 0.04),
                 ],
               );
       },
@@ -202,14 +225,19 @@ class _NewGroupState extends State<NewGroup> {
           Text(
             "Participants: ${widget.selectedContacts.length} ",
             style: GoogleFonts.montserrat(
-              color: Colors.black.withOpacity(0.7),
+             
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: listView(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Expanded(
+            child: Padding(
+              padding:EdgeInsets.all(15),
+              child: listView(),
+            ),
           ),
         ],
       ),

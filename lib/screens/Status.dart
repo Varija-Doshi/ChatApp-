@@ -12,9 +12,12 @@ class _StatusState extends State<Status> {
 
   Widget listView() {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: currentMe.length,
       itemBuilder: (context, i) {
-        return ListTile(title: Text(currentMe[i]));
+        return ListTile(
+          title: Text(currentMe[i]),
+        );
       },
     );
   }
@@ -65,6 +68,10 @@ class _StatusState extends State<Status> {
                 ),
               ],
             ),
+          ),
+          Divider(
+            color: Colors.grey[350],
+            thickness: 1.0,
           ),
           Container(
             child: listView(),
