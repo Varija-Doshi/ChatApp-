@@ -8,7 +8,8 @@ class Status extends StatefulWidget {
 }
 
 class _StatusState extends State<Status> {
-  List currentMe = ["Sleeping", "Happy", "Sad", "GOODBYE", "Busy", "Fuck You"];
+  List currentMe = ["Sleeping", "Happy", "Sad", "GOODBYE", "Busy", "Like You"];
+  final TextEditingController _statusController = TextEditingController();
 
   Widget listView() {
     return ListView.builder(
@@ -17,6 +18,11 @@ class _StatusState extends State<Status> {
       itemBuilder: (context, i) {
         return ListTile(
           title: Text(currentMe[i]),
+          onTap: () {
+            setState(() {
+              currentUser.status = currentMe[i];
+            });
+          },
         );
       },
     );
@@ -62,7 +68,37 @@ class _StatusState extends State<Status> {
                       color: Colors.black,
                       iconSize: 27,
                       splashRadius: 27,
-                      onPressed: () {},
+                      onPressed: () {
+                        return showDialog(
+                          barrierDismissible: true,
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: Text("Custom Status"),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  TextField(
+                                    controller: _statusController,
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    setState(() {
+                                      currentUser.status =
+                                          _statusController.text;
+                                    });
+                                  },
+                                  child: Text("Confirm"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 ),

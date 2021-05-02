@@ -121,7 +121,7 @@ class _ProfileState extends State<Profile> {
             children: <Widget>[
               TextField(
                 controller: _controller,
-              )
+              ),
             ],
           ),
           actions: [
